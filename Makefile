@@ -50,13 +50,13 @@ upgrade-direct-deps:
 
 aws_build:
 	go get -v all
-	GOOS=linux go build -o build/main cmd/vpnbeast-api/main.go
+	GOOS=linux go build -o build/main cmd/vpnbeast-service/main.go
 	zip -jrm build/main.zip build/main
 
 aws_upload: aws_build
-	aws lambda update-function-code --function-name vpnbeast-api --zip-file fileb://build/main.zip
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://build/main.zip
 
 aws_upload_publish: aws_build
-	aws lambda update-function-code --function-name vpnbeast-api --zip-file fileb://build/main.zip --publish
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://build/main.zip --publish
 
 all: test build run

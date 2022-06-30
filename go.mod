@@ -1,4 +1,4 @@
-module github.com/vpnbeast/vpnbeast-api
+module github.com/vpnbeast/vpnbeast-service
 
 go 1.17
 
