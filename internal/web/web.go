@@ -2,7 +2,7 @@ package web
 
 import (
 	"github.com/aws/aws-lambda-go/events"
-	commons "github.com/vpnbeast/golang-commons"
+	commons "github.com/thevpnbeast/golang-commons"
 	"go.uber.org/zap"
 )
 

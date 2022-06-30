@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/aws/aws-lambda-go/lambda"
-	commons "github.com/vpnbeast/golang-commons"
+	commons "github.com/thevpnbeast/golang-commons"
 	"github.com/vpnbeast/vpnbeast-service/internal/web"
 	"go.uber.org/zap"
 )
