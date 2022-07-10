@@ -4,15 +4,22 @@ export AWS_PROFILE := thevpnbeast-root
 lint:
 	golangci-lint run
 
+fmt:
+	go fmt ./...
+
 vet:
 	go vet ./...
 
 ineffassign:
-	go get -u github.com/gordonklaus/ineffassign
+	go get github.com/gordonklaus/ineffassign
+	go mod vendor
 	ineffassign ./...
 
 test:
 	go test ./...
+
+test_coverage:
+	go test ./... -race -coverprofile=coverage.txt -covermode=atomic
 
 build:
 	go build -o bin/main cmd/vpnbeast-service/main.go
@@ -50,13 +57,13 @@ upgrade-direct-deps:
 
 aws_build:
 	go get -v all
-	GOOS=linux go build -o build/main cmd/vpnbeast-service/main.go
-	zip -jrm build/main.zip build/main
+	GOOS=linux go build -o bin/main cmd/vpnbeast-service/main.go
+	zip -jrm build/main.zip bin/main
 
 aws_upload: aws_build
-	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://build/main.zip
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip
 
 aws_upload_publish: aws_build
-	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://build/main.zip --publish
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip --publish
 
 all: test build run
