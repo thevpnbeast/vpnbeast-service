@@ -3,7 +3,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Timeout: 300
-      MemorySize: 128
+      MemorySize: 1024
       Handler: handler
       CodeUri: ../../cmd/vpnbeast-service
       Runtime: go1.x
