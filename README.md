@@ -1,4 +1,13 @@
 # Vpnbeast Service
+[![CI](https://github.com/thevpnbeast/vpnbeast-service/workflows/CI/badge.svg?event=push)](https://github.com/thevpnbeast/vpnbeast-service/actions?query=workflow%3ACI)
+[![Go Report Card](https://goreportcard.com/badge/github.com/thevpnbeast/vpnbeast-service)](https://goreportcard.com/report/github.com/thevpnbeast/vpnbeast-service)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=thevpnbeast_vpnbeast-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=thevpnbeast_vpnbeast-service)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=thevpnbeast_vpnbeast-service&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=thevpnbeast_vpnbeast-service)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=thevpnbeast_vpnbeast-service&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=thevpnbeast_vpnbeast-service)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=thevpnbeast_vpnbeast-service&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=thevpnbeast_vpnbeast-service)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=thevpnbeast_vpnbeast-service&metric=coverage)](https://sonarcloud.io/summary/new_code?id=thevpnbeast_vpnbeast-service)
+[![Go version](https://img.shields.io/github/go-mod/go-version/thevpnbeast/vpnbeast-service)](https://github.com/thevpnbeast/vpnbeast-service)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Development
 This project requires below tools while developing:
