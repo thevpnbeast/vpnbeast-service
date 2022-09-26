@@ -2,6 +2,10 @@ package options
 
 var opts *VpnbeastServiceOptions
 
+func init() {
+	opts = &VpnbeastServiceOptions{}
+}
+
 // VpnbeastServiceOptions represents vpnbeast-service environment variables
 type VpnbeastServiceOptions struct {
 	DbUrl                string `env:"DB_URL"`
@@ -14,9 +18,4 @@ type VpnbeastServiceOptions struct {
 // GetVpnbeastServiceOptions returns the initialized VpnbeastServiceOptions
 func GetVpnbeastServiceOptions() *VpnbeastServiceOptions {
 	return opts
-}
-
-// newAuthServiceOptions creates an AuthServiceOptions struct with zero values
-func newVpnbeastServiceOptions() *VpnbeastServiceOptions {
-	return &VpnbeastServiceOptions{}
 }
