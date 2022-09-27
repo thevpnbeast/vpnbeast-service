@@ -122,15 +122,16 @@ cross-compile:
 	GOOS=linux GOARCH=amd64 go build -o bin/main-linux-amd64 cmd/vpnbeast-service/main.go
 	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 cmd/vpnbeast-service/main.go
 
-aws_build:
+.PHONY: aws-build
+aws-build:
 	go get -v all
 	GOOS=linux go build -o bin/main cmd/vpnbeast-service/main.go
 	zip -jrm bin/main.zip bin/main
 
-aws_upload: aws_build
+.PHONY: aws-upload
+aws-upload: aws-build
 	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip
 
-aws_upload_publish: aws_build
+.PHONY: aws-publish
+aws-publish: aws-build
 	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip --publish
-
-all: test build run
