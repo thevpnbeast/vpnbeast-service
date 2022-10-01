@@ -137,7 +137,7 @@ jobs:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.AWS_RELEASE_BUCKET }}
-          source_dir: bin/main.zip
+          source_dir: bin/
           destination_dir: vpnbeast-service
 
 #  deploy:
