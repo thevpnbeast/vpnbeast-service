@@ -9,6 +9,7 @@ github.com/google/go-cmp v0.5.8 h1:e6P7q2lk1O+qJJb4BtCQXlK8vWEO8V1ZeuEdJNOqZyg=
 github.com/kr/pretty v0.3.0 h1:WgNl7dwNpEZ6jJ9k1snq4pZsg7DOEN8hP9Xw0Tsjwk0=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
+github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rogpeppe/go-internal v1.6.1 h1:/FiVV8dS/e+YqF2JvO3yXRFbBLTIuSDkuC7aBOAvL+k=
@@ -26,6 +27,8 @@ github.com/thevpnbeast/golang-commons v1.0.2 h1:XtqXh0/eFM1FL79n9cA0WqrJAhcjYzyK
 github.com/thevpnbeast/golang-commons v1.0.2/go.mod h1:OgOVbqpdBAuaV6i4+LrVBQ1uPjuRtITmI2DN4r5jo0A=
 github.com/thevpnbeast/golang-commons v1.0.3 h1:GDfNivEL3lIt3h8F5f29ZECfuWjozr4CrGDmwjMfn9w=
 github.com/thevpnbeast/golang-commons v1.0.3/go.mod h1:OgOVbqpdBAuaV6i4+LrVBQ1uPjuRtITmI2DN4r5jo0A=
+github.com/thevpnbeast/golang-commons v1.0.4 h1:OKxSJ4sSmPiFJh8gNeI2zcoMXnUvVSBh2nhqK4+SrSY=
+github.com/thevpnbeast/golang-commons v1.0.4/go.mod h1:UrPGeGBvCTWtoYWRyvVIa7lU+xOk4+z6vQCeVf925xY=
 go.uber.org/atomic v1.7.0/go.mod h1:fEN4uk6kAWBTFdckzkM89CLk9XfWZrxpCo0nPH17wJc=
 go.uber.org/atomic v1.10.0 h1:9qC72Qh0+3MqyJbAn8YU5xVq1frD8bn3JtD2oXtafVQ=
 go.uber.org/atomic v1.10.0/go.mod h1:LUxbIzbOniOlMKjJjyPfpl4v+PKK2cNJn91OQbhoJI0=

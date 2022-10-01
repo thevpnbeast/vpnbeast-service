@@ -5,12 +5,13 @@ go 1.19
 require (
 	github.com/aws/aws-lambda-go v1.34.1
 	github.com/stretchr/testify v1.8.0
-	github.com/thevpnbeast/golang-commons v1.0.3
+	github.com/thevpnbeast/golang-commons v1.0.4
 	go.uber.org/zap v1.23.0
 )
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/stretchr/objx v0.4.0 // indirect

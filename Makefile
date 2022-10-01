@@ -122,11 +122,12 @@ cross-compile:
 	GOOS=linux GOARCH=amd64 go build -o bin/main-linux-amd64 cmd/vpnbeast-service/main.go
 	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 cmd/vpnbeast-service/main.go
 
+VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
 .PHONY: aws-build
 aws-build:
 	go get -v all
 	GOOS=linux go build -o bin/main cmd/vpnbeast-service/main.go
-	zip -jrm bin/main.zip bin/main
+	zip -jrm bin/main-$(VERSION).zip bin/main
 
 .PHONY: aws-upload
 aws-upload: aws-build
