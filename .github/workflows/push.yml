@@ -161,7 +161,7 @@ jobs:
           timeout: 10
           handler: main
           runtime: go1.x
-          function_name: vpnbeast-service
+          function_name: vpnbeast-api
 
 #  release:
 #    needs:
