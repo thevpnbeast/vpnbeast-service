@@ -136,3 +136,23 @@ aws-upload: aws-build
 .PHONY: aws-publish
 aws-publish: aws-build
 	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip --publish
+
+.PHONY: sam-build
+sam-build:
+	sam build
+
+.PHONY: sam-validate
+sam-validate:
+	sam validate
+
+.PHONY: sam-local-invoke
+sam-local-invoke:
+	sam local invoke
+
+.PHONY: sam-cloud-invoke
+sam-cloud-invoke:
+	sam sync --stack-name vpnbeast-service --watch
+
+.PHONY: sam-deploy
+sam-deploy: sam-build
+	sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name vpnbeast-service --s3-bucket thevpnbeast-releases --capabilities CAPABILITY_IAM --region us-east-1

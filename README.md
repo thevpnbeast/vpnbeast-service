@@ -21,6 +21,19 @@ After you installed [pre-commit](https://pre-commit.com/), simply run below comm
 $ pre-commit install -c build/ci/.pre-commit-config.yaml
 ```
 
+Sample SAM commands:
+```shell
+$ sam validate
+$ sam build
+# Invoke function
+$ sam local invoke
+# Test function in the cloud
+$ sam sync --stack-name vpnbeast-service --watch
+# Deploy
+$ sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name vpnbeast-service --s3-bucket thevpnbeast-releases --capabilities CAPABILITY_IAM --region us-east-1
+```
+
 ## References
 - https://www.softkraft.co/aws-lambda-in-golang/
 - https://serverlessland.com/patterns/apigw-cognito-authorizer-sam-nodejs
+- https://aws.amazon.com/blogs/compute/using-github-actions-to-deploy-serverless-applications/
