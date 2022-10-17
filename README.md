@@ -23,14 +23,15 @@ $ pre-commit install -c build/ci/.pre-commit-config.yaml
 
 Sample SAM commands:
 ```shell
-$ sam validate
-$ sam build
+$ make sam-validate
+# Build the code
+$ make sam-build
 # Invoke function
-$ sam local invoke
+$ make sam-local-invoke
 # Test function in the cloud
-$ sam sync --stack-name vpnbeast-service --watch
+$ make sam-cloud-invoke
 # Deploy
-$ sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name vpnbeast-service --s3-bucket thevpnbeast-releases --capabilities CAPABILITY_IAM --region us-east-1
+$ make sam-deploy
 ```
 
 ## References

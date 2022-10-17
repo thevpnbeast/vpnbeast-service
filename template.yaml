@@ -8,26 +8,42 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 5
+    Timeout: 10
+    Runtime: go1.x
+    Handler: main
+    CodeUri: ./cmd/vpnbeast-service
+    MemorySize: 256
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        TABLE_NAME: data-table
+  #  Api: (read more from here https://github.com/aws/serverless-application-model/blob/master/versions/2016-10-31.md#example-aws-sam-template)
+  #    EndpointConfiguration: REGIONAL
+  #    Cors: "'www.example.com'"
+  #    Domain:
+  #      DomainName: www.my-domain.com
+  #      CertificateArn: my-valid-cert-arn
+  #      EndpointConfiguration: EDGE
 
 Resources:
   VpnbeastServiceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: ./cmd/vpnbeast-service
-      Handler: main
-      Runtime: go1.x
-      Architectures:
-        - x86_64
       Events:
-        CatchAll:
+        PingEvent:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /v1
+            Path: /v1/ping
             Method: GET
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
-        Variables:
-          PARAM1: VALUE
+        HelloEvent:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /v1/hello
+            Method: POST
+      #      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+      #        Variables:
+      #          PARAM1: VALUE
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
