@@ -38,3 +38,4 @@ $ make sam-deploy
 - https://www.softkraft.co/aws-lambda-in-golang/
 - https://serverlessland.com/patterns/apigw-cognito-authorizer-sam-nodejs
 - https://aws.amazon.com/blogs/compute/using-github-actions-to-deploy-serverless-applications/
+- https://github.com/aws/serverless-application-model/blob/master/versions/2016-10-31.md#aws-serverless-application-model-sam
