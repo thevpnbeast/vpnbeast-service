@@ -1,6 +1,11 @@
 # assumes that we have already a profile named thevpnbeast-root in AWS CLI config
 export AWS_PROFILE := thevpnbeast-root
 
+AWS_REGION = us-east-1
+AWS_IAM_CAPABILITIES = CAPABILITY_IAM
+AWS_RELEASES_BUCKET = thevpnbeast-releases
+AWS_STACK_NAME = vpnbeast-service
+
 ERRCHECK_VERSION = latest
 GOLANGCI_LINT_VERSION = latest
 REVIVE_VERSION = latest
@@ -151,8 +156,8 @@ sam-local-invoke:
 
 .PHONY: sam-cloud-invoke
 sam-cloud-invoke:
-	sam sync --stack-name vpnbeast-service --watch
+	sam sync --stack-name $(AWS_STACK_NAME) --watch
 
 .PHONY: sam-deploy
 sam-deploy: sam-build
-	sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name vpnbeast-service --s3-bucket thevpnbeast-releases --capabilities CAPABILITY_IAM --region us-east-1
+	sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name $(AWS_STACK_NAME) --s3-bucket $(AWS_RELEASES_BUCKET) --capabilities $(AWS_IAM_CAPABILITIES) --region $(AWS_REGION)
