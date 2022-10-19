@@ -5,16 +5,19 @@ Description: >
 
   SAM Template for vpnbeast-service
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: vpnbeast-service
+    SpdxLicenseId: Apache-2.0
+    LicenseUrl: LICENSE
+    ReadmeUrl: README.md
+    HomePageUrl: https://github.com/thevpnbeast/vpnbeast-service
+    SourceCodeUrl: https://github.com/thevpnbeast/vpnbeast-service
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 10
-    Runtime: go1.x
-    Handler: main
-    CodeUri: ./cmd/vpnbeast-service
-    MemorySize: 256
-    Architectures:
-      - x86_64
     Environment:
       Variables:
         TABLE_NAME: data-table
@@ -30,6 +33,12 @@ Resources:
   VpnbeastServiceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
+      Runtime: go1.x
+      Handler: main
+      MemorySize: 256
+      Architectures:
+        - x86_64
+      CodeUri: ./cmd/vpnbeast-service
       Events:
         PingEvent:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

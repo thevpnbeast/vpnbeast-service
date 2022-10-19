@@ -9,7 +9,7 @@ import (
 )
 
 func unhandledEventHandler() (*events.APIGatewayProxyResponse, error) {
-	return apiResponse(http.StatusMethodNotAllowed, ErrMethodNotAllowed)
+	return apiResponse(http.StatusOK, ErrMethodNotAllowed)
 }
 
 func helloEventHandler(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
