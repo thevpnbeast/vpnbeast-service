@@ -159,9 +159,9 @@ cloud-invoke:
 	sam sync --stack-name $(AWS_STACK_NAME) --watch
 
 .PHONY: sam-deploy
-deploy: sam-build
+sam-deploy: sam-build
 	sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name $(AWS_STACK_NAME) --s3-bucket $(AWS_RELEASES_BUCKET) --capabilities $(AWS_IAM_CAPABILITIES) --region $(AWS_REGION)
 
 .PHONY: sam-publish
-publish: sam-build deploy
+publish: sam-build sam-deploy
 	sam publish --region $(AWS_REGION) --semantic-version 1.0.1
