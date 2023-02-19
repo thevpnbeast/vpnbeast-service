@@ -30,6 +30,12 @@ Globals:
   #      EndpointConfiguration: EDGE
 
 Resources:
+  VpnbeastAPIGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: API Gateway for VPNBeast
+      StageName: Staging
+
   VpnbeastServiceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -55,6 +61,18 @@ Resources:
       #          PARAM1: VALUE
 
 Outputs:
+  ApiGateway:
+    Description: 'API Gateway endpoint URL for Staging stage'
+    Value: !Sub 'https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/Stage/v1/'
+  ApiGatewayRestApiId:
+    Description: 'API Gateway ARN for AWS API Gateway'
+    Value: !Ref ApiGateway
+    Export:
+      Name: ApiGateway-RestApiId
+  ApiGatewayRootResourceId:
+    Value: !GetAtt ApiGateway.RootResourceId
+    Export:
+      Name: ApiGateway-RootResourceId
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api

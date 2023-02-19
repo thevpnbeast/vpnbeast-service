@@ -134,8 +134,8 @@ aws-build:
 	GOOS=linux go build -o bin/main cmd/vpnbeast-service/main.go
 	zip -jrm bin/main-$(VERSION).zip bin/main
 
-.PHONY: aws-upload
-aws-upload: aws-build
+.PHONY: aws-deploy
+aws-deploy: aws-build
 	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip
 
 .PHONY: aws-publish
@@ -151,17 +151,17 @@ sam-validate:
 	sam validate
 
 .PHONY: sam-local-invoke
-sam-local-invoke:
+local-invoke:
 	sam local invoke
 
 .PHONY: sam-cloud-invoke
-sam-cloud-invoke:
+cloud-invoke:
 	sam sync --stack-name $(AWS_STACK_NAME) --watch
 
 .PHONY: sam-deploy
-sam-deploy: sam-build
+deploy: sam-build
 	sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name $(AWS_STACK_NAME) --s3-bucket $(AWS_RELEASES_BUCKET) --capabilities $(AWS_IAM_CAPABILITIES) --region $(AWS_REGION)
 
 .PHONY: sam-publish
-sam-publish: sam-build sam-deploy
+publish: sam-build deploy
 	sam publish --region $(AWS_REGION) --semantic-version 1.0.1

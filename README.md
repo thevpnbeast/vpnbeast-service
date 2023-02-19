@@ -23,6 +23,7 @@ $ pre-commit install -c build/ci/.pre-commit-config.yaml
 
 Sample SAM commands:
 ```shell
+# Validate the SAM Template
 $ make sam-validate
 # Build the code
 $ make sam-build
@@ -31,7 +32,7 @@ $ make sam-local-invoke
 # Test function in the cloud
 $ make sam-cloud-invoke
 # Deploy
-$ make sam-deploy
+$ make deploy
 ```
 
 ## References
