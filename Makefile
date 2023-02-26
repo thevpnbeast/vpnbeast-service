@@ -1,6 +1,3 @@
-# assumes that we have already a profile named thevpnbeast-root in AWS CLI config
-export AWS_PROFILE := thevpnbeast-root
-
 AWS_REGION = us-east-1
 AWS_IAM_CAPABILITIES = CAPABILITY_IAM
 AWS_RELEASES_BUCKET = thevpnbeast-releases-1
