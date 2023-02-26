@@ -3,8 +3,10 @@ export AWS_PROFILE := thevpnbeast-root
 
 AWS_REGION = us-east-1
 AWS_IAM_CAPABILITIES = CAPABILITY_IAM
-AWS_RELEASES_BUCKET = thevpnbeast-releases
+AWS_RELEASES_BUCKET = thevpnbeast-releases-1
 AWS_STACK_NAME = vpnbeast-service
+TEMPLATE_FILE = template.yaml
+GENERATED_TEMPLATE_FILE = template_generated.yaml
 
 ERRCHECK_VERSION = latest
 GOLANGCI_LINT_VERSION = latest
@@ -110,7 +112,8 @@ update: tidy
 .PHONY: build
 build: tidy
 	$(info building binary...)
-	go build -o bin/vpnbeast-service cmd/vpnbeast-service/main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
+	go get -v all
+	GOOS=linux GOARCH=amd64 go build -o main main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
 
 .PHONY: run
 run: tidy
@@ -118,37 +121,38 @@ run: tidy
 
 .PHONY: cross-compile
 cross-compile:
-	GOOS=freebsd GOARCH=386 go build -o bin/main-freebsd-386 cmd/vpnbeast-service/main.go
-	GOOS=darwin GOARCH=386 go build -o bin/main-darwin-386 cmd/vpnbeast-service/main.go
-	GOOS=linux GOARCH=386 go build -o bin/main-linux-386 cmd/vpnbeast-service/main.go
-	GOOS=windows GOARCH=386 go build -o bin/main-windows-386 cmd/vpnbeast-service/main.go
-	GOOS=freebsd GOARCH=amd64 go build -o bin/main-freebsd-amd64 cmd/vpnbeast-service/main.go
-	GOOS=darwin GOARCH=amd64 go build -o bin/main-darwin-amd64 cmd/vpnbeast-service/main.go
-	GOOS=linux GOARCH=amd64 go build -o bin/main-linux-amd64 cmd/vpnbeast-service/main.go
-	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 cmd/vpnbeast-service/main.go
+	GOOS=freebsd GOARCH=386 go build -o bin/main-freebsd-386 main.go
+	GOOS=darwin GOARCH=386 go build -o bin/main-darwin-386 main.go
+	GOOS=linux GOARCH=386 go build -o bin/main-linux-386 main.go
+	GOOS=windows GOARCH=386 go build -o bin/main-windows-386 main.go
+	GOOS=freebsd GOARCH=amd64 go build -o bin/main-freebsd-amd64 main.go
+	GOOS=darwin GOARCH=amd64 go build -o bin/main-darwin-amd64 main.go
+	GOOS=linux GOARCH=amd64 go build -o bin/main-linux-amd64 main.go
+	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 main.go
 
 VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
 .PHONY: aws-build
 aws-build:
 	go get -v all
-	GOOS=linux go build -o bin/main cmd/vpnbeast-service/main.go
-	zip -jrm bin/main-$(VERSION).zip bin/main
+	GOOS=linux GOARCH=amd64 go build -o main main.go
+	zip -jrm main-$(VERSION).zip main
 
-.PHONY: aws-upload
-aws-upload: aws-build
-	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip
+
+.PHONY: aws-deploy
+aws-deploy: aws-build
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://main.zip
 
 .PHONY: aws-publish
 aws-publish: aws-build
-	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://bin/main.zip --publish
-
-.PHONY: sam-build
-sam-build:
-	sam build
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://main.zip --publish
 
 .PHONY: sam-validate
 sam-validate:
 	sam validate
+
+.PHONY: sam-local-start-api
+sam-local-start-api:
+	sam local start-api
 
 .PHONY: sam-local-invoke
 sam-local-invoke:
@@ -158,6 +162,28 @@ sam-local-invoke:
 sam-cloud-invoke:
 	sam sync --stack-name $(AWS_STACK_NAME) --watch
 
-.PHONY: sam-deploy
-sam-deploy: sam-build
-	sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name $(AWS_STACK_NAME) --s3-bucket $(AWS_RELEASES_BUCKET) --capabilities $(AWS_IAM_CAPABILITIES) --region $(AWS_REGION)
+.PHONY: sam-build
+sam-build: build
+	which build-lambda-zip || go install github.com/aws/aws-lambda-go/cmd/build-lambda-zip@latest
+	build-lambda-zip -o main.zip main || (echo an error while compressing binary with build-lambda-zip, exiting!; sh -c 'exit 1';)
+	sam build
+
+.PHONY: sam-package
+sam-package: sam-build
+	sam package --s3-bucket $(AWS_RELEASES_BUCKET) --template-file $(TEMPLATE_FILE) --output-template-file $(GENERATED_TEMPLATE_FILE)
+
+.PHONY: sam-deploy-stage
+sam-deploy-stage: sam-package
+	sam deploy --parameter-overrides StageName=stage AppVersion=$(VERSION) --no-confirm-changeset \
+		--no-fail-on-empty-changeset --template-file $(GENERATED_TEMPLATE_FILE) --stack-name $(AWS_STACK_NAME) \
+		--s3-bucket $(AWS_RELEASES_BUCKET) --capabilities $(AWS_IAM_CAPABILITIES) --region $(AWS_REGION)
+
+.PHONY: sam-deploy-prod
+sam-deploy-prod: sam-package
+	sam deploy --parameter-overrides StageName=prod AppVersion=$(VERSION) --no-confirm-changeset \
+		--no-fail-on-empty-changeset --template-file $(GENERATED_TEMPLATE_FILE) --stack-name $(AWS_STACK_NAME) \
+		--s3-bucket $(AWS_RELEASES_BUCKET) --capabilities $(AWS_IAM_CAPABILITIES) --region $(AWS_REGION)
+
+.PHONY: sam-publish
+sam-publish: sam-deploy
+	sam publish --region $(AWS_REGION) --semantic-version $(VERSION)
