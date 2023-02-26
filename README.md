@@ -32,7 +32,7 @@ $ make sam-cloud-invoke
 # Deploy to stage
 $ make sam-deploy-stage
 # Deploy to prod
-$ make sam-deploy-stage
+$ make sam-deploy-prod
 ```
 
 ## References
