@@ -25,14 +25,14 @@ Sample SAM commands:
 ```shell
 # Validate the SAM Template
 $ make sam-validate
-# Build the code
-$ make sam-build
 # Invoke function
 $ make sam-local-invoke
 # Test function in the cloud
 $ make sam-cloud-invoke
-# Deploy
-$ make deploy
+# Deploy to stage
+$ make sam-deploy-stage
+# Deploy to prod
+$ make sam-deploy-stage
 ```
 
 ## References
