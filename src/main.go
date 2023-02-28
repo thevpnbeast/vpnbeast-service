@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/thevpnbeast/vpnbeast-service/internal/web"
+	"github.com/thevpnbeast/vpnbeast-service/src/internal/web"
 )
 
 func main() {

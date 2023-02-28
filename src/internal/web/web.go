@@ -1,8 +1,9 @@
 package web
 
 import (
-	"github.com/aws/aws-lambda-go/events"
 	"log"
+
+	"github.com/aws/aws-lambda-go/events"
 )
 
 func HandleRequests(e events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {

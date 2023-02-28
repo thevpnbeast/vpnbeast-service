@@ -67,6 +67,7 @@ upgrade-direct-deps: tidy
 .PHONY: tidy
 tidy:
 	go mod tidy
+	go mod vendor
 
 .PHONY: run-goimports
 run-goimports: go-imports-install
@@ -112,39 +113,38 @@ update: tidy
 .PHONY: build
 build: tidy
 	$(info building binary...)
-	go get -v all
-	GOOS=linux GOARCH=amd64 go build -o main main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
+	GOOS=linux GOARCH=amd64 go build -o src/main src/main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
 
 .PHONY: run
 run: tidy
-	go run main.go
+	go run src/main.go
 
 .PHONY: cross-compile
 cross-compile:
-	GOOS=freebsd GOARCH=386 go build -o bin/main-freebsd-386 main.go
-	GOOS=darwin GOARCH=386 go build -o bin/main-darwin-386 main.go
-	GOOS=linux GOARCH=386 go build -o bin/main-linux-386 main.go
-	GOOS=windows GOARCH=386 go build -o bin/main-windows-386 main.go
-	GOOS=freebsd GOARCH=amd64 go build -o bin/main-freebsd-amd64 main.go
-	GOOS=darwin GOARCH=amd64 go build -o bin/main-darwin-amd64 main.go
-	GOOS=linux GOARCH=amd64 go build -o bin/main-linux-amd64 main.go
-	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 main.go
+	GOOS=freebsd GOARCH=386 go build -o bin/main-freebsd-386 src/main.go
+	GOOS=darwin GOARCH=386 go build -o bin/main-darwin-386 src/main.go
+	GOOS=linux GOARCH=386 go build -o bin/main-linux-386 src/main.go
+	GOOS=windows GOARCH=386 go build -o bin/main-windows-386 src/main.go
+	GOOS=freebsd GOARCH=amd64 go build -o bin/main-freebsd-amd64 src/main.go
+	GOOS=darwin GOARCH=amd64 go build -o bin/main-darwin-amd64 src/main.go
+	GOOS=linux GOARCH=amd64 go build -o bin/main-linux-amd64 src/main.go
+	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 src/main.go
 
 VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
 .PHONY: aws-build
 aws-build:
 	go get -v all
-	GOOS=linux GOARCH=amd64 go build -o main main.go
-	zip -jrm main-$(VERSION).zip main
+	GOOS=linux GOARCH=amd64 go build -o src/main src/main.go
+	zip -jrm src/main-$(VERSION).zip src/main
 
 
 .PHONY: aws-deploy
 aws-deploy: aws-build
-	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://main.zip
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://src/main.zip
 
 .PHONY: aws-publish
 aws-publish: aws-build
-	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://main.zip --publish
+	aws lambda update-function-code --function-name vpnbeast-service --zip-file fileb://src/main.zip --publish
 
 .PHONY: sam-validate
 sam-validate:
@@ -165,7 +165,7 @@ sam-cloud-invoke:
 .PHONY: sam-build
 sam-build: build
 	which build-lambda-zip || go install github.com/aws/aws-lambda-go/cmd/build-lambda-zip@latest
-	build-lambda-zip -o main.zip main || (echo an error while compressing binary with build-lambda-zip, exiting!; sh -c 'exit 1';)
+	build-lambda-zip -o src/main.zip src/main || (echo an error while compressing binary with build-lambda-zip, exiting!; sh -c 'exit 1';)
 	sam build
 
 .PHONY: sam-package
