@@ -15,6 +15,7 @@ GOIMPORTS_VERSION = latest
 INEFFASSIGN_VERSION = latest
 
 LOCAL_BIN := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))/.bin
+VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
 
 .PHONY: all
 all: clean tools lint fmt test build
@@ -130,7 +131,6 @@ cross-compile:
 	GOOS=linux GOARCH=amd64 go build -o bin/main-linux-amd64 src/main.go
 	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 src/main.go
 
-VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
 .PHONY: aws-build
 aws-build:
 	go get -v all
