@@ -1,27 +1,18 @@
 package web
 
 import (
-	"fmt"
-
 	"github.com/aws/aws-lambda-go/events"
-	commons "github.com/thevpnbeast/golang-commons"
-	"go.uber.org/zap"
+	"log"
 )
 
-var logger *zap.Logger
-
-func init() {
-	logger = commons.GetLogger()
-}
-
 func HandleRequests(e events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	logger.Info("request received", zap.String("path", e.Path))
-	fmt.Println(e)
 	switch e.Path {
 	case "/v1/hello":
+		log.Println("EVENT: request received for endpoint /v1/hello")
 		return helloEventHandler(e)
 	case "/v1/ping":
-		return pingEventHandler(e)
+		log.Println("EVENT: request received for endpoint /v1/ping")
+		return pingEventHandler()
 	default:
 		return unhandledEventHandler()
 	}

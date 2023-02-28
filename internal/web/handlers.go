@@ -21,6 +21,6 @@ func helloEventHandler(req events.APIGatewayProxyRequest) (*events.APIGatewayPro
 	return apiResponse(http.StatusOK, Response{Status: true, Message: fmt.Sprintf("hello %s", request.PlainText)})
 }
 
-func pingEventHandler(req events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+func pingEventHandler() (*events.APIGatewayProxyResponse, error) {
 	return apiResponse(http.StatusOK, Response{Status: true, Message: "pong"})
 }
