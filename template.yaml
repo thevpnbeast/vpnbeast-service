@@ -12,7 +12,7 @@ Parameters:
     Default: API Gateway for vpnbeast-service function created by SAM with CloudFormations
   StageName:
     Type: String
-    Default: stage
+    Default: v1
   AppVersion:
     Type: String
     Default: 1.0.0
@@ -36,7 +36,7 @@ Resources:
       Tags:
         AppVersion: !Ref AppVersion
       MethodSettings:
-        - ResourcePath: /v1/ping
+        - ResourcePath: /ping
           HttpMethod: GET
           CachingEnabled: true
           CacheTtlInSeconds: 300
@@ -62,21 +62,21 @@ Resources:
           Properties:
             RestApiId:
               Ref: ApiGatewayApi
-            Path: /v1/ping
+            Path: /ping
             Method: GET
         HelloEvent:
           Type: Api
           Properties:
             RestApiId:
               Ref: ApiGatewayApi
-            Path: /v1/hello
+            Path: /hello
             Method: POST
 
 Outputs:
   ApiGatewayApiUrl:
     Description: URL of your API endpoint
     Value:
-      Fn::Sub: 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/stage/'
+      Fn::Sub: 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/v1/'
   ServiceFunctionArn:
     Description: "vpnbeast-service Lambda Function ARN"
     Value: !GetAtt ServiceFunction.Arn
