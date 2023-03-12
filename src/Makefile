@@ -136,6 +136,7 @@ sam-build:
 
 .PHONY: sam-package
 sam-package: sam-build
+	rm -rf .bin
 	sam package --s3-prefix $(APP_NAME) --s3-bucket $(AWS_RELEASES_BUCKET) --template-file $(TEMPLATE_FILE) --output-template-file $(GENERATED_TEMPLATE_FILE)
 
 .PHONY: sam-deploy
