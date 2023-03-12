@@ -27,8 +27,7 @@ clean:
 	rm -rf $(LOCAL_BIN)
 
 .PHONY: tools
-tools:  golangci-lint-install revive-install go-imports-install ineffassign-install
-	go mod tidy
+tools:  tidy golangci-lint-install revive-install go-imports-install ineffassign-install
 
 .PHONY: golangci-lint-install
 golangci-lint-install:
@@ -56,7 +55,7 @@ lint-golangci-lint:
 .PHONY: lint-revive
 lint-revive:
 	$(info running revive...)
-	$(LOCAL_BIN)/revive -formatter=stylish -config=build/ci/.revive.toml -exclude ./vendor/... ./... || (echo revive returned an error, exiting!; sh -c 'exit 1';)
+	$(LOCAL_BIN)/revive -formatter=stylish -config=../build/ci/.revive.toml -exclude ./vendor/... ./... || (echo revive returned an error, exiting!; sh -c 'exit 1';)
 
 .PHONY: upgrade-direct-deps
 upgrade-direct-deps: tidy
