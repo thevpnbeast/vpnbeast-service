@@ -116,5 +116,5 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version-file: "src/go.mod"
-      - name: Test
+      - name: Check if source code is buildable
         run: make -C src -s build
