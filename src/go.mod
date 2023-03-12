@@ -1,9 +1,9 @@
-module github.com/thevpnbeast/vpnbeast-service
+module github.com/thevpnbeast/vpnbeast-service/src
 
 go 1.19
 
 require (
-	github.com/aws/aws-lambda-go v1.37.0
+	github.com/aws/aws-lambda-go v1.38.0
 	github.com/stretchr/testify v1.8.2
 )
 

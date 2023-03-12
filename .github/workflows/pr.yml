@@ -15,11 +15,11 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "go.mod"
+          go-version-file: "src/go.mod"
       - name: Lint code
-        run: make -s lint
+        run: make -C src -s lint
       - name: Clean downloaded binaries
-        run: make -s clean
+        run: make -C src -s clean
 
   fmt:
     runs-on: ubuntu-latest
@@ -29,11 +29,11 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "go.mod"
+          go-version-file: "src/go.mod"
       - name: Run fmt
-        run: make -s fmt
+        run: make -C src -s fmt
       - name: Clean downloaded binaries
-        run: make -s clean
+        run: make -C src -s clean
 
   test:
     runs-on: ubuntu-latest
@@ -43,9 +43,9 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "go.mod"
+          go-version-file: "src/go.mod"
       - name: Test
-        run: make -s test
+        run: make -C src -s test
 
   gosec:
     runs-on: ubuntu-latest
@@ -90,9 +90,9 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "go.mod"
+          go-version-file: "src/go.mod"
       - name: Coverage Test
-        run: make -s test-with-coverage
+        run: make -C src -s test-with-coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -115,6 +115,6 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "go.mod"
+          go-version-file: "src/go.mod"
       - name: Test
-        run: make build
+        run: make -C src -s build
