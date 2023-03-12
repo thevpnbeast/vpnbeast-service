@@ -114,7 +114,6 @@ jobs:
         with:
           args: >
             -Dproject.settings=build/ci/sonar-project.properties
-            -Dsonar.sources=src/
       - name: SonarQube Quality Gate check
         uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
