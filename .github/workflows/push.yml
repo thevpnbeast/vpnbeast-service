@@ -16,7 +16,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "src/go.mod"
+          go-version-file: "go.mod"
       - name: Lint code
         run: make -C src -s lint
       - name: Clean downloaded binaries
@@ -30,7 +30,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "src/go.mod"
+          go-version-file: "go.mod"
       - name: Run fmt
         run: make -C src -s fmt
       - name: Clean downloaded binaries
@@ -44,7 +44,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "src/go.mod"
+          go-version-file: "go.mod"
       - name: Test
         run: make -C src -s test
 
@@ -103,7 +103,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "src/go.mod"
+          go-version-file: "go.mod"
       - name: Coverage Test
         run: make -C src -s test-with-coverage
       - name: SonarCloud Scan
@@ -132,7 +132,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "src/go.mod"
+          go-version-file: "go.mod"
       - name: Check if source code is buildable
         run: make -C src -s build
 
@@ -189,7 +189,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version-file: "src/go.mod"
+          go-version-file: "go.mod"
       - uses: aws-actions/setup-sam@v2
       - uses: aws-actions/configure-aws-credentials@v1
         with:
