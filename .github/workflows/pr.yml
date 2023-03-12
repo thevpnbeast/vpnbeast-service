@@ -19,7 +19,7 @@ jobs:
       - name: Lint code
         run: make -C src -s lint
       - name: Clean downloaded binaries
-        run: make -C src -s clean
+        run: make -s clean
 
   fmt:
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
       - name: Run fmt
         run: make -C src -s fmt
       - name: Clean downloaded binaries
-        run: make -C src -s clean
+        run: make -s clean
 
   test:
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
         with:
           go-version-file: "go.mod"
       - name: Test
-        run: make -C src -s test
+        run: make -s test
 
   gosec:
     runs-on: ubuntu-latest
@@ -92,7 +92,7 @@ jobs:
         with:
           go-version-file: "go.mod"
       - name: Coverage Test
-        run: make -C src -s test-with-coverage
+        run: make -s test-with-coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -117,4 +117,4 @@ jobs:
         with:
           go-version-file: "go.mod"
       - name: Check if source code is buildable
-        run: make -C src -s build
+        run: make -s build
