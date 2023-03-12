@@ -11,7 +11,7 @@
 
 ## Development
 This project requires below tools while developing:
-- [Golang 1.19](https://golang.org/doc/go1.19)
+- [Golang 1.20](https://golang.org/doc/go1.20)
 - [pre-commit](https://pre-commit.com/)
 - [golangci-lint](https://golangci-lint.run/usage/install/) - required by [pre-commit](https://pre-commit.com/)
 - [gocyclo](https://github.com/fzipp/gocyclo) - required by [pre-commit](https://pre-commit.com/)
@@ -27,15 +27,15 @@ $ pre-commit install -c build/ci/.pre-commit-config.yaml
 Sample SAM commands:
 ```shell
 # Validate the SAM Template
-$ make -C src sam-validate
+$ make sam-validate
 # Invoke function
-$ make -C src sam-local-invoke
+$ make sam-local-invoke
 # Spin up local API
-$ make -C src sam-local-start-api
+$ make sam-local-start-api
 # Test function in the cloud
-$ make -C src sam-cloud-invoke
+$ make sam-cloud-invoke
 # Deploy
-$ make -C src sam-deploy
+$ make sam-deploy
 ```
 
 ## References
