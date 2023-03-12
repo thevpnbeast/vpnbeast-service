@@ -1,4 +1,4 @@
-module github.com/thevpnbeast/vpnbeast-service/src
+module github.com/thevpnbeast/vpnbeast-service
 
 go 1.19
 
