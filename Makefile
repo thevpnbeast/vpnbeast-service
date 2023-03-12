@@ -7,8 +7,8 @@ AWS_IAM_CAPABILITIES = CAPABILITY_IAM
 AWS_RELEASES_BUCKET = thevpnbeast-releases-1
 AWS_STACK_NAME = vpnbeast-service
 
-TEMPLATE_FILE = template.yaml
-GENERATED_TEMPLATE_FILE = template_generated.yaml
+TEMPLATE_FILE = build/package/template.yaml
+GENERATED_TEMPLATE_FILE = build/package/template_generated.yaml
 
 ERRCHECK_VERSION = latest
 GOLANGCI_LINT_VERSION = latest
@@ -55,7 +55,7 @@ lint-golangci-lint:
 .PHONY: lint-revive
 lint-revive:
 	$(info running revive...)
-	$(LOCAL_BIN)/revive -formatter=stylish -config=../build/ci/.revive.toml -exclude ./vendor/... ./... || (echo revive returned an error, exiting!; sh -c 'exit 1';)
+	$(LOCAL_BIN)/revive -formatter=stylish -config=build/ci/.revive.toml -exclude ./vendor/... ./... || (echo revive returned an error, exiting!; sh -c 'exit 1';)
 
 .PHONY: upgrade-direct-deps
 upgrade-direct-deps: tidy
@@ -115,7 +115,7 @@ update: tidy
 .PHONY: build
 build: tidy
 	$(info building binary...)
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o src/main src/main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
 
 .PHONY: run
 run: tidy
@@ -129,14 +129,13 @@ sam-validate:
 .PHONY: sam-build
 sam-build:
 	$(info building binary...)
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o src/main src/main.go || (echo an error while building binary, exiting!; sh -c 'exit 1';)
 #	which build-lambda-zip || go install github.com/aws/aws-lambda-go/cmd/build-lambda-zip@latest
 #	build-lambda-zip -o main.zip main || (echo an error while compressing binary with build-lambda-zip, exiting!; sh -c 'exit 1';)
-	sam build --template-file $(TEMPLATE_FILE)
+	sam build --template-file $(TEMPLATE_FILE) --build-dir src/.aws-sam/build
 
 .PHONY: sam-package
 sam-package: sam-build
-	rm -rf .bin
 	sam package --s3-prefix $(APP_NAME) --s3-bucket $(AWS_RELEASES_BUCKET) --template-file $(TEMPLATE_FILE) --output-template-file $(GENERATED_TEMPLATE_FILE)
 
 .PHONY: sam-deploy
@@ -152,19 +151,19 @@ sam-publish: sam-deploy
 
 .PHONY: sam-local-start-api
 sam-local-start-api: sam-build
-	sam local start-api
+	sam local start-api --template-file $(GENERATED_TEMPLATE_FILE)
 
 .PHONY: sam-local-invoke
 sam-local-invoke: sam-build
-	sam local invoke
+	sam local invoke --template-file $(GENERATED_TEMPLATE_FILE)
 
 .PHONY: sam-cloud-invoke
 sam-cloud-invoke: sam-build
-	sam sync --stack-name $(AWS_STACK_NAME) --watch
+	sam sync --stack-name $(AWS_STACK_NAME) --template-file $(GENERATED_TEMPLATE_FILE) --watch
 
 .PHONY: sam-delete
 sam-delete:
-	sam delete --stack-name $(AWS_STACK_NAME) --region $(AWS_REGION)
+	sam delete --stack-name $(AWS_STACK_NAME) --template-file $(GENERATED_TEMPLATE_FILE) --region $(AWS_REGION)
 
 ### Unneeded commands for now ###
 #.PHONY: aws-build
