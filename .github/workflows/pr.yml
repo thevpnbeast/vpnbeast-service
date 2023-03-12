@@ -17,7 +17,7 @@ jobs:
         with:
           go-version-file: "go.mod"
       - name: Lint code
-        run: make -C src -s lint
+        run: make -s lint
       - name: Clean downloaded binaries
         run: make -s clean
 
@@ -31,7 +31,7 @@ jobs:
         with:
           go-version-file: "go.mod"
       - name: Run fmt
-        run: make -C src -s fmt
+        run: make -s fmt
       - name: Clean downloaded binaries
         run: make -s clean
 
